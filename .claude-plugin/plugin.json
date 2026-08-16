@@ -1,6 +1,6 @@
 {
   "name": "layman",
-  "description": "Plain language without dumbing down. Jargon glossed rather than avoided, assumptions stated out loud, and every reference named before it is numbered. Two independent dials: plainness and density.",
+  "description": "Makes every message stand on its own when you come back to it cold — for developers running parallel sessions, where each switch drops the context the last message assumed. References named before they are numbered, assumptions stated out loud, jargon glossed rather than avoided. Two independent dials: plainness and density.",
   "author": {
     "name": "Yev Toyber",
     "url": "https://github.com/yevgenyt"

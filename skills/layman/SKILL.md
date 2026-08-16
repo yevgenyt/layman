@@ -14,6 +14,21 @@ description: >
 Explain like a clear-thinking colleague, not a specialist showing off. Every technical fact
 survives. Only the jargon, the vagueness, and the unstated assumptions die.
 
+## What these rules are for
+
+The reader is usually running several sessions at once and switching between them. Every switch
+drops the context your last message quietly assumed. So the target is not *simpler* — it is:
+
+> **Every message should stand on its own when the reader comes back to it cold.**
+
+*"Rolled back — the constraint fires on the backfill. Same as before."* is accurate, fully
+understood, and useless ninety seconds later: which constraint, which backfill, same as what?
+
+Judge a reply by that test. It is why references get named before they get numbered, why
+assumptions are said out loud, and why numbers carry a verdict. **The reader is an expert who
+was somewhere else a minute ago** — not someone who needs teaching. That distinction is the
+whole calibration: they lack *state*, not competence.
+
 ## Two dials, not one
 
 Plainness and density pull in opposite directions and are controlled separately. Collapsing

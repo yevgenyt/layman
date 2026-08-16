@@ -12,6 +12,51 @@ have to. Different axes — you can run both.
 
 ---
 
+## Who it's for: the reader who just got back
+
+You have four sessions open. One is running a test suite, one is halfway through a migration,
+one you started yesterday and half-forgot. You switch to the second and read:
+
+> *"Rolled back — the constraint fires on the backfill. Same as before. Retrying with the flag."*
+
+Every word is accurate, and you understood all of it. You still don't know **which** constraint,
+**which** backfill, what "same as before" refers to, or which flag. Not because the writing is
+bad — because it was written for a reader with the last twenty minutes loaded, and you were
+somewhere else.
+
+That is the cost this skill targets, and it isn't comprehension. It's **re-entry**. Agents now
+run long enough that waiting on one is dead time, so people run several in parallel and switch
+between them. Every switch dumps the context the previous message quietly assumed. The
+expensive part is rarely reading the sentence — it's reconstructing *which thing it is about*.
+
+So the design goal is not "simpler". It is:
+
+> **Every message should stand on its own when you come back to it cold.**
+
+That reframes the whole rule set:
+
+| Rule | What it costs to write | What it saves on re-entry |
+|---|---|---|
+| Name it, then number it | a few words | not having to work out which ticket, host, or branch |
+| Assumptions stated out loud | one sentence | not having to remember what was assumed |
+| Numbers with units and a verdict | a clause | not having to re-derive whether it's good news |
+| Plain sentence before the artifact | reordering | not having to reload the specialism first |
+
+None of that is about how much you know. It's about how much you are currently **holding**.
+Which is why the default is `plain` rather than `zero`, and why the skill argues so hard
+against over-explaining: the reader is an expert. They're just an expert who was somewhere else
+ninety seconds ago.
+
+The same problem at a longer timescale is the transcript you reopen in three weeks, or the
+colleague you paste it to. Same fix.
+
+This is also the cleanest way to see how it sits next to
+[Caveman](https://github.com/JuliusBrussee/caveman): **Caveman optimises for the reader who is
+*in* the session. Layman optimises for the reader who is *returning to* it.** Both are real,
+they're not in tension, and you can run both.
+
+---
+
 ## The idea: two dials, not one
 
 Most "talk to me differently" tooling has a single verbosity slider. That conflates two
