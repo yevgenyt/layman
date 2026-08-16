@@ -287,6 +287,6 @@ only, or the plugin with its `SessionStart` hook. See the README.
 
 The density dial — its idea, its level names, and the `wenyan-*` registers — comes from
 **Caveman** by Julius Brussee (<https://github.com/JuliusBrussee/caveman>, MIT). Layman adds
-the plainness dial and is meant to complement it: Caveman's own documentation says it is *"not
-for people who need detailed explanations"*, and this is the other half of that sentence. See
-NOTICE for the full attribution.
+the plainness dial and is meant to complement it rather than replace it — Caveman compresses
+for a reader who already knows the domain, Layman for one who shouldn't have to. See NOTICE
+for the full attribution.

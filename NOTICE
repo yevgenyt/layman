@@ -38,7 +38,6 @@ What is original to Layman:
   - The **"name it, then number it"** reference rule.
   - The over-application guardrails ("this is not a third-grader conversation").
 
-Caveman's stated limitation is what prompted this project. From its own
-documentation: *"Not for people who need detailed explanations — it's for those
-who read code and only need results."* Layman is the other half of that
-sentence, and is meant to complement Caveman rather than replace it.
+Layman is meant to complement Caveman, not replace it. Caveman optimises output
+for a reader who already knows the domain; Layman optimises it for a reader who
+should not have to. They act on different axes and can be run together.

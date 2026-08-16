@@ -6,13 +6,9 @@ Layman is a Claude Code skill that changes how the assistant talks to you: jargo
 explained rather than avoided, assumptions get said out loud, and every reference carries its
 name before its identifier.
 
-It is the complement to [Caveman](https://github.com/JuliusBrussee/caveman), whose own
-documentation names the gap this fills:
-
-> *"Not for people who need detailed explanations — it's for those who read code and only need
-> results."*
-
-This is the other half of that sentence.
+It is the complement to [Caveman](https://github.com/JuliusBrussee/caveman), which compresses
+output for a reader who already knows the domain. Layman is for the case where they shouldn't
+have to. Different axes — you can run both.
 
 ---
 
