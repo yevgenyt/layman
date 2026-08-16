@@ -1,0 +1,72 @@
+#!/bin/sh
+# Layman — SessionStart hook.
+#
+# Emits the condensed layman rules, plus the reader's current levels, as
+# additionalContext so the mode is active from the first response of a session
+# rather than only after /layman is invoked.
+#
+# Deliberately POSIX sh with no dependencies: a communication-style plugin has
+# no business dragging in a language runtime. Reads state, writes nothing.
+#
+# Contract: SessionStart hooks may return JSON on stdout;
+# hookSpecificOutput.additionalContext is injected as a system reminder.
+set -eu
+
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/layman"
+LEVELS_FILE="$CONFIG_DIR/levels"
+VOCAB_FILE="$CONFIG_DIR/known-vocabulary"
+
+plainness=plain
+density=lite
+
+if [ -r "$LEVELS_FILE" ]; then
+    # Tolerate comments, blank lines, and stray whitespace; ignore anything else.
+    while IFS='=' read -r key value; do
+        key=$(printf '%s' "$key" | tr -d '[:space:]')
+        value=$(printf '%s' "$value" | tr -d '[:space:]')
+        case "$key" in
+            plainness) [ -n "$value" ] && plainness="$value" ;;
+            density)   [ -n "$value" ] && density="$value" ;;
+        esac
+    done < "$LEVELS_FILE"
+fi
+
+# Explicit opt-out: expert + lite is layman off on both axes. Stay silent rather
+# than spending context telling the model to behave normally.
+if [ "$plainness" = "expert" ] && [ "$density" = "lite" ]; then
+    exit 0
+fi
+
+vocabulary=''
+if [ -r "$VOCAB_FILE" ]; then
+    # Strip comments/blanks, join to a single comma-separated line.
+    vocabulary=$(sed -e 's/#.*//' -e '/^[[:space:]]*$/d' "$VOCAB_FILE" \
+                 | tr '\n' ',' | sed -e 's/,$//' -e 's/,/, /g')
+fi
+
+# Build the reminder, then JSON-escape it in one pass.
+{
+    printf 'Layman mode is ON. plainness=%s density=%s.\n' "$plainness" "$density"
+    cat <<'RULES'
+Plain sentence first, exact command second. Jargon is glossed, not avoided, and
+never dumbed down: gloss what is niche to THIS reader, never what they have used
+themselves, budget a gloss or two per reply. Name it then number it - a bare
+PROJ-142 is as useless as "that ticket"; lead with meaning, append the
+identifier. State assumptions out loud. Numbers get units, scale, and a verdict.
+Never simplify an exact identifier, a risk warning, or a caveat; plain is not
+soft and must never read as more confident than the evidence. Not a third-grader
+conversation: assume general competence, just not this specialism's vocabulary -
+pitch up, not down. Code, commits, PRs and docs stay in normal register.
+Full rules and level changes: the layman skill.
+RULES
+    if [ -n "$vocabulary" ]; then
+        printf 'Known vocabulary - never gloss these: %s\n' "$vocabulary"
+    fi
+} | awk '
+    BEGIN { printf "{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"" }
+    {
+        gsub(/\\/, "\\\\"); gsub(/"/, "\\\""); gsub(/\t/, " ")
+        printf "%s\\n", $0
+    }
+    END { print "\"}}" }
+'

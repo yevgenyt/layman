@@ -1,0 +1,32 @@
+{
+  "name": "layman",
+  "description": "Plain language without dumbing down. Jargon glossed rather than avoided, assumptions stated out loud, and every reference named before it is numbered. Two independent dials: plainness and density.",
+  "author": {
+    "name": "Yevgeny Toyber",
+    "url": "https://github.com/yevgenyt"
+  },
+  "homepage": "https://github.com/yevgenyt/layman",
+  "license": "MIT",
+  "keywords": [
+    "communication",
+    "plain-language",
+    "jargon",
+    "readability",
+    "accessibility",
+    "output-style"
+  ],
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/bin/layman-session-start\"",
+            "timeout": 5,
+            "statusMessage": "Loading layman mode..."
+          }
+        ]
+      }
+    ]
+  }
+}

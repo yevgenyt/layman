@@ -1,0 +1,44 @@
+Layman
+Copyright (c) 2026 Yevgeny Toyber
+
+================================================================================
+Attribution
+================================================================================
+
+This work is a derivative of Caveman by Julius Brussee.
+
+    Caveman — https://github.com/JuliusBrussee/caveman
+    Copyright (c) 2026 Julius Brussee
+    Licensed under the MIT License
+
+Caveman's repository is split-licensed: `skills/` is MIT ("Existing Caveman
+skill stays MIT and untouched", LICENSING.md), while its engine, proxy, and
+related runtime directories carry BSL-1.1.
+
+**Only the MIT-licensed `skills/caveman/SKILL.md` informed this project.** No
+code, no engine, no proxy, and nothing under a BSL-1.1 path was copied,
+inspected for reimplementation, or vendored here. Layman ships no runtime
+beyond a ~40-line POSIX shell hook written for this project.
+
+What is derived:
+
+  - The **density dial** — the idea of graded output compression, its level
+    names (`lite`, `full`, `ultra`), and the `wenyan-*` Classical Chinese
+    registers are Caveman's design, adopted here so that anyone moving between
+    the two projects keeps the same vocabulary.
+  - The activation and level-switching conventions (`/caveman lite|full|ultra`
+    → `/layman lite|full|ultra`), so muscle memory transfers.
+
+What is original to Layman:
+
+  - The **plainness dial** (`expert` / `plain` / `zero`) and the argument that
+    plainness and density are orthogonal axes rather than one scale.
+  - **Auto-calibration** — treating the vocabulary a reader has themselves used
+    as vocabulary they know.
+  - The **"name it, then number it"** reference rule.
+  - The over-application guardrails ("this is not a third-grader conversation").
+
+Caveman's stated limitation is what prompted this project. From its own
+documentation: *"Not for people who need detailed explanations — it's for those
+who read code and only need results."* Layman is the other half of that
+sentence, and is meant to complement Caveman rather than replace it.
