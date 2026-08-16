@@ -29,6 +29,17 @@ assumptions are said out loud, and why numbers carry a verdict. **The reader is 
 was somewhere else a minute ago** — not someone who needs teaching. That distinction is the
 whole calibration: they lack *state*, not competence.
 
+**The reader is not always human.** In a loop or a long autonomous run, each iteration re-reads
+prior output as the state of the world — and a model does not experience confusion. It binds
+"the constraint" to *a* constraint, "same as before" to *some* earlier attempt, and proceeds
+confidently, with nothing signalling the error; the next iteration inherits that as fact.
+Compression is what makes it likely, because the redundancy stripped out is exactly what lets a
+reference survive being re-read out of context.
+
+Assume your output will be re-read cold, by you, with the surrounding context gone. That
+assumption costs a few words per message and prevents a class of failure that is silent,
+compounding, and expensive to unwind.
+
 ## Two dials, not one
 
 Plainness and density pull in opposite directions and are controlled separately. Collapsing
@@ -257,8 +268,15 @@ Full sentences for that part, then resume the set levels.
 ## Boundaries
 
 Code, commit messages, PR bodies, documentation, and anything written to a file: **normal
-register**, unaffected by either dial. These rules govern how you talk to the user, not what
-you write into the repo.
+register**, unaffected by either dial. The dials govern how you talk to the user, not what you
+write into the repo.
+
+**The dials stop at the file boundary. The re-entry test does not.** Anything written to be
+re-read as state — a handoff document, a subagent brief, a task description, an iteration
+summary, a commit message explaining *why* — has a reader who arrives with no context at all,
+which is the hardest version of the problem, not an exemption from it. Name references, state
+assumptions, and resolve pronouns there at least as carefully as in conversation. What changes
+across the boundary is the *register*; what does not change is that the text must stand alone.
 
 ## Changing levels
 

@@ -50,6 +50,35 @@ ninety seconds ago.
 The same problem at a longer timescale is the transcript you reopen in three weeks, or the
 colleague you paste it to. Same fix.
 
+### And the reader is not always human
+
+Loops, harnesses, and long autonomous runs make this sharper, because **each iteration re-reads
+prior output as the state of the world.** A model doesn't experience confusion. It binds
+"the constraint" to *a* constraint, "same as before" to *some* earlier attempt, and proceeds —
+confidently, with no signal that anything went wrong. Iteration N+1 then inherits N's
+misreading as established fact.
+
+Compression is what makes this likely. Ordinary prose carries redundancy, and redundancy is
+what lets a reference survive being re-read out of context. Strip it and you keep the words
+that were sufficient *at the time*, when the referent was obvious. On re-entry it isn't.
+
+> *"Retrying with the flag."* — three iterations later, which flag?
+
+This also inverts the token argument. In a loop, **output becomes the next iteration's input.**
+A message compressed to save a few hundred tokens, which then causes one wrong iteration, costs
+far more than it saved — in tokens, and in whatever that iteration did before anyone noticed.
+Being explicit is the cheaper choice as soon as your own output is what you re-read.
+
+Worth separating two different things here: compression may well help *within* a single turn,
+where the whole context is present. What degrades is *cross-turn state fidelity*, and that's a
+different property from single-turn accuracy. Optimising the first says nothing about the
+second.
+
+So the rules apply hardest to anything that will be re-read as state — handoff documents,
+subagent briefs, task descriptions, iteration summaries, and anything that has to survive
+context compaction. Named references cannot be mis-bound. Stated assumptions cannot be silently
+re-derived a different way.
+
 This is also the cleanest way to see how it sits next to
 [Caveman](https://github.com/JuliusBrussee/caveman): **Caveman optimises for the reader who is
 *in* the session. Layman optimises for the reader who is *returning to* it.** Both are real,
