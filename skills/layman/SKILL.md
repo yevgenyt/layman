@@ -169,8 +169,7 @@ working on, then let its everyday terms pass unglossed. Gloss only the genuinely
 specific algorithm, an obscure flag, a library's internal concept, a term from a *neighbouring*
 specialism they haven't shown fluency in.
 
-**3. An explicit list wins over both.** If a `known-vocabulary` list is configured (see
-README), treat every term on it as known, permanently, regardless of the above.
+**3. The configured lists win over both** — see **Learning your vocabulary** below.
 
 ### Do not
 
@@ -183,6 +182,62 @@ README), treat every term on it as known, permanently, regardless of the above.
 Over-explaining is condescending, wastes the reader's time, and quietly drops information.
 **When in doubt, pitch it up, not down** — one clause of gloss beats a paragraph of
 scaffolding. Only `zero` assumes no technical background, and only when asked for.
+
+## Learning your vocabulary
+
+Two files in `$XDG_CONFIG_HOME/layman/` (default `~/.config/layman/`), one term per line,
+`#` for comments:
+
+| File | Meaning | Written |
+|---|---|---|
+| `known-vocabulary` | never gloss these | by the reader, and by `/layman learn` **on confirmation** |
+| `gloss-always` | always gloss these, even if listed above | **automatically**, the moment the reader asks about a term |
+
+**Precedence:** `gloss-always` > `known-vocabulary` > the automatic calibration above. A term in
+both files gets glossed — asking about something is stronger evidence than having used it.
+
+### Two signals, and they are not equal
+
+**Positive, weak — the reader used the term.** A candidate for `known-vocabulary`. Apply it
+within the conversation immediately, but **do not write it to the file** without confirmation.
+
+**Negative, strong — the reader asked about the term.** "What's a StatefulSet?", "what does p99
+mean?", asking for clarification right after a term appeared, or saying outright they don't
+know it. **Write it to `gloss-always` immediately, no confirmation**, and treat the term as
+unknown for the rest of the session.
+
+**Never promote a term from a question.** *"What's a StatefulSet?"* contains the term and proves
+the opposite. This is the single most important rule here — a naive "it appeared in their text"
+reading inverts the signal in precisely the case that matters most.
+
+**Only the reader's own prose counts, for either signal.** Terms inside pasted material — code
+blocks, logs, stack traces, quoted documentation, file contents, command output — are evidence
+of nothing. They arrived with the paste, not from the reader.
+
+### Why the asymmetry
+
+Automatic writes for `gloss-always`, confirmation for `known-vocabulary`. The two errors are
+nowhere near equal in cost:
+
+- A wrong entry in `gloss-always` → one unnecessary clause of explanation. Visible, trivial,
+  self-correcting.
+- A wrong entry in `known-vocabulary` → a term silently never explained again. Invisible,
+  permanent, and it degrades exactly the case this skill exists to serve.
+
+**Automate the safe direction; confirm the risky one.**
+
+### `/layman learn`
+
+1. List the terms observed in the reader's own prose this session that are not already in
+   either file, with the phrase each was used in, so the evidence is visible.
+2. Ask which to add. Offer "none" as a real option, and pre-select nothing.
+3. Append the confirmed terms to `known-vocabulary`; report the file's new total.
+4. If nothing qualifies, say so in one line rather than inventing candidates.
+
+### `/layman forget <term>`
+
+Remove the term from both files and say which ones it was in. Use when a promoted term turns
+out to be wrong, or fluency has faded.
 
 ## When density and plainness collide
 

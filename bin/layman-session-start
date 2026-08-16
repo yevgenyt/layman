@@ -15,6 +15,7 @@ set -eu
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/layman"
 LEVELS_FILE="$CONFIG_DIR/levels"
 VOCAB_FILE="$CONFIG_DIR/known-vocabulary"
+GLOSS_FILE="$CONFIG_DIR/gloss-always"
 
 plainness=plain
 density=lite
@@ -37,12 +38,15 @@ if [ "$plainness" = "expert" ] && [ "$density" = "lite" ]; then
     exit 0
 fi
 
-vocabulary=''
-if [ -r "$VOCAB_FILE" ]; then
-    # Strip comments/blanks, join to a single comma-separated line.
-    vocabulary=$(sed -e 's/#.*//' -e '/^[[:space:]]*$/d' "$VOCAB_FILE" \
-                 | tr '\n' ',' | sed -e 's/,$//' -e 's/,/, /g')
-fi
+# Strip comments/blanks from a term list, join to one comma-separated line.
+read_terms() {
+    [ -r "$1" ] || return 0
+    sed -e 's/#.*//' -e '/^[[:space:]]*$/d' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' "$1" \
+        | tr '\n' ',' | sed -e 's/,$//' -e 's/,/, /g'
+}
+
+vocabulary=$(read_terms "$VOCAB_FILE")
+gloss_always=$(read_terms "$GLOSS_FILE")
 
 # Build the reminder, then JSON-escape it in one pass.
 {
@@ -61,6 +65,9 @@ Full rules and level changes: the layman skill.
 RULES
     if [ -n "$vocabulary" ]; then
         printf 'Known vocabulary - never gloss these: %s\n' "$vocabulary"
+    fi
+    if [ -n "$gloss_always" ]; then
+        printf 'ALWAYS gloss these (the reader has asked about them; overrides the list above): %s\n' "$gloss_always"
     fi
 } | awk '
     BEGIN { printf "{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"" }

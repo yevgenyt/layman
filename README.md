@@ -189,6 +189,8 @@ business dragging in a language runtime. It reads your config and writes nothing
 | `/layman full` | Sets density, leaves plainness alone |
 | `/layman zero ultra` | Sets both |
 | `/layman wenyan-full` | Classical Chinese register (not in the picker — see below) |
+| `/layman learn` | Proposes terms you used this session; writes the ones you confirm |
+| `/layman forget <term>` | Removes a term from both vocabulary files |
 | "layman off" / "normal mode" | `expert` + `lite` |
 | "be brief" / "caveman mode" | Density only; plainness untouched |
 
@@ -213,9 +215,9 @@ plainness=plain
 density=lite
 ```
 
-**`known-vocabulary`** *(optional)* — terms never to explain to you, one per line. This
-overrides the automatic calibration above, so it's worth filling in for anything you use daily
-that a general reader wouldn't:
+**`known-vocabulary`** *(optional)* — terms never to explain to you, one per line. Overrides the
+automatic calibration above, so it's worth filling in for anything you use daily that a general
+reader wouldn't:
 
 ```
 # infrastructure
@@ -227,6 +229,37 @@ podman
 Temporal
 pgbouncer
 ```
+
+**`gloss-always`** — the inverse, and it maintains itself. **The moment you ask what a term
+means, it's written here**, and from then on it always gets a gloss — even if it's also in
+`known-vocabulary`. Asking is stronger evidence than having used it.
+
+### How the vocabulary grows
+
+The automatic calibration is per-conversation: it infers from what you've said *in that
+session* and remembers nothing afterwards. Persisting it is deliberate, and the two directions
+are handled differently on purpose:
+
+| Signal | Strength | What happens |
+|---|---|---|
+| You **used** a term | weak — you may have pasted it, or been quoting | applied in-session; written only via `/layman learn`, on your confirmation |
+| You **asked about** a term | strong — unambiguous | written to `gloss-always` **immediately**, no confirmation |
+
+**`/layman learn`** lists the terms it saw you use this session, with the phrase each appeared
+in, and writes only the ones you pick. **`/layman forget <term>`** removes a term from both
+files.
+
+Two rules keep this from going wrong. **A term in a question is never promoted** — *"what's a
+StatefulSet?"* contains the word and proves the opposite, and a naive "it appeared in their
+text" rule would learn precisely the wrong thing in the case that matters most. And **only your
+own prose counts**: terms inside pasted code, logs, stack traces, or quoted docs arrived with
+the paste, not from you.
+
+The asymmetry between automatic and confirmed is the whole design. A wrong entry in
+`gloss-always` costs one unnecessary clause — visible and trivial. A wrong entry in
+`known-vocabulary` means a term is silently never explained again: invisible, permanent, and it
+degrades exactly the case this exists to serve. **Automate the safe direction; confirm the
+risky one.**
 
 ### Always-on without the plugin
 
